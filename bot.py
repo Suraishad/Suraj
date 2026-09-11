@@ -7,9 +7,9 @@ import google.generativeai as genai
 # Logging setup
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-# API Keys (Yahan apni keys daalni hongi ya Environment variables use karne honge)
-TELEGRAM_BOT_TOKEN = "APNA_TELEGRAM_BOT_TOKEN_YAHAN_DAALO"
-GEMINI_API_KEY = "APNA_GEMINI_API_KEY_YAHAN_DAALO"
+# API Keys configured directly
+TELEGRAM_BOT_TOKEN = "8861142054:AAHKYErO4oxcwsMKkl4gFvu4PK3Y4DcQus0"
+GEMINI_API_KEY = "AQ.Ab8RN6KyBRRv4ZQ9LDRQQc1_yhVrhHgFvCUB6rMFBVOxh5tvdg"
 
 # Gemini configure
 genai.configure(api_key=GEMINI_API_KEY)
