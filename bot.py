@@ -9,8 +9,9 @@ from groq import Groq
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-TELEGRAM_BOT_TOKEN = "8861142054:AAFdRxCAk7awom_p7AYhbE9IF2tJGXd8828"
-GROQ_API_KEY = "gsk_kxwc7P2THTrugeE1TbfyWGdyb3FYIfEs4X4KtXYBIoLPKQXhz3T"
+# Render ke environment variables se keys uthayega (GitHub block nahi karega)
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 
 client = Groq(api_key=GROQ_API_KEY)
 
@@ -66,5 +67,5 @@ if __name__ == '__main__':
     app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle_message))
     app.add_error_handler(error_handler)
-    print("Surya Bot with Groq & Error Handler is running...")
+    print("Surya Bot with Groq & Environment Variables is running...")
     app.run_polling()
