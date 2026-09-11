@@ -7,8 +7,9 @@ from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, filte
 from groq import Groq
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-TELEGRAM_BOT_TOKEN = "8861142054:AAHKYErO4oxcwsMKkl4gFvu4PK3Y4DcQus0"
+TELEGRAM_BOT_TOKEN = "8861142054:AAFdRxCAk7awom_p7AYhbE9IF2tJGXd8828"
 GROQ_API_KEY = "gsk_kxwc7P2THTrugeE1TbfyWGdyb3FYIfEs4X4KtXYBIoLPKQXhz3T"
 
 client = Groq(api_key=GROQ_API_KEY)
@@ -58,8 +59,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text(f"Arre Malik, error aa gaya: {e}")
 
+async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    logger.error(msg="Exception while handling an update:", exc_info=context.error)
+
 if __name__ == '__main__':
     app = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle_message))
-    print("Surya Bot with Groq is running...")
+    app.add_error_handler(error_handler)
+    print("Surya Bot with Groq & Error Handler is running...")
     app.run_polling()
