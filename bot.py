@@ -2,22 +2,18 @@ import os
 import logging
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, filters
-import google.generativeai as genai
+from google import genai
 
-# Logging setup
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-# Credentials
 TELEGRAM_BOT_TOKEN = "8861142054:AAHKYErO4oxcwsMKkl4gFvu4PK3Y4DcQus0"
-GEMINI_API_KEY = "AQ.Ab8RN6JIcPPhVeIFbPFfzrsFq0tbdYJGoICbtYSL33BHnSzqOA"
+GEMINI_API_KEY = "AQ.Ab8RN6KO7hkt82Zjo7PgqT59uni4wrfyjZXqRkvLPIIdJvRDHQ"
 
-# Configure old genai library with transport fix for AQ keys
-genai.configure(api_key=GEMINI_API_KEY)
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_message = update.message.text
     try:
-        # Complete Personalized Surya Persona & Bio
         prompt = f"""
         You are Surya (also known as Suraj), an AI bot created by your absolute Malik, Suraj Bhai (17 years old, studies in 10th class, lives in Sarai Gullhariya, Sariya Bazar, Gorakhpur, caste Nishad, height 170cm).
         
@@ -34,10 +30,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         User's message: {user_message}
         """
         
-        # Using stable flash model with old SDK
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        response = model.generate_content(prompt)
-        
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+        )
         await update.message.reply_text(response.text)
     except Exception as e:
         await update.message.reply_text(f"Arre Malik, error aa gaya: {e}")
